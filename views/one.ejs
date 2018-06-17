@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+    <head>
+            <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+            <link rel="stylesheet" type="text/css" href="/css/movie.css"> 
+    </head>
+    <body>
+        <div class="main">       
+            <div class = "movie">
+                <div class="movie__head">
+                    <h1><%= mov.Title %> <%=action%> </h1>
+                    <a class = "btn-back" href="/movies">&larr; Back</a>  
+                </div>
+                <div class="movie__body">              
+                    <img class = "movie__poster" src= <%= mov.Poster %> alt="movies poster">
+                    
+                    <div class="movie__info">
+                            <h2>Plot</h2>    <p><%= mov.Plot %></p>
+                            <h2>Year</h2> 
+                            <p> - <%= mov.Year %> 
+                                <h2>Genre</h2> 
+                                <p><%= mov.Genre %></p> 
+                                <h2>Director</h2> 
+                            <p><%= mov.Director %></p> 
+                    </div>   
+                </div>                    
+            </div>                
+            
+        </div>    
+    </body>
+</html>
+    
+     
+       
+    

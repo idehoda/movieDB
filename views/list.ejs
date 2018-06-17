@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+    <head>
+            <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+            <link rel="stylesheet" type="text/css" href="/css/styles.css"> 
+    </head>
+    <body>
+        <div class="message"><%= message%></div>
+        <div class="main">
+            <h1 class="heading-main">movies in database</h1>
+            <div class="search">
+                    <a class = "comments-link" href="/">Main page</a> 
+                <form class = "top-form" action="/movies" method = "POST" >
+                    <input class = "search__input" type="text" name = "movieTitle" placeholder="Add movie">
+                    <input class = "search__submit" type="submit" value = "go!"/>
+                </form>
+                <a class = "comments-link" href="/comments">All comments</a> 
+            </div>
+            <div class = "movie-list">        
+                <ul>
+                    <% mov.forEach(function(movie) { %>
+                        <li class="element">
+                            <div>
+                                <a href="/movies/<%= movie._id %>">
+                                    <img class = "movie-poster" src= <%= movie.Poster %> alt="">
+                                </a>
+                            </div>
+                            <div class="movie__info">
+                                <h2><%= movie.Title %></h2>
+                                <p><%= movie.Title %> - <%= movie.Plot %>   </p> 
+                                <p><%= movie.Year %> - <%= movie.Genre %>   </p> 
+                                <p>Director - <%= movie.Director %>  </p> 
+                            </div>                                     
+                    
+                        <div class="comments">
+                                <form  class="comments__form" action="/comments" method = "POST" >
+                                    <label for="area"></label>
+                                    <textarea class="comments__input" cols="30" rows ="8" name="commentText[<%= movie._id %>]" placeholder="leave a quick comment..."></textarea>
+                                    <div class = "comments__btns">
+                                            <input  class="comments_submit" type="submit" value = "leave comment!"/>
+                                            <a  class="movie-comments" href="/comments/<%= movie._id %>"  >movie &rarr; comments</a>
+                                    </div>                                    
+                                </form>                              
+                            </div>
+                    </li>
+                    <% }); %>                
+                </ul>
+            </div>       
+        </div>
+    </body>
+</html>
+
+
+ 
+   

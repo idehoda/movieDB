@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Karla" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/css/comments.css"> 
+    </head>
+    <body>
+        <div class="main">
+            <div class="movie__head">
+                <a class = "btn-back" href="/movies">&larr; Movies</a>
+                <h1>All comments in Database </h1>                
+                <a class = "btn-back" href="/"> Main &rarr;</a>  
+            </div>
+            <div class = "movie-list">
+
+                    <% movies.forEach(function(movie) { %>
+                        <div class="movie__container">
+                            <label class="movie__name"><%=movie.Title%>
+                                <input type="checkbox" class="checkbox">                         
+                                <ul class="list">	
+                                    <% movie.Comments.forEach(function(comment) { %>
+                                        <li class="comment"><%=comment%></li>
+                                    <% }); %>
+                                </ul> 
+                            </label>
+                        </div>
+                    <% }); %>
+
+            </div>                
+
+        </div>
+    </body>
+</html>
