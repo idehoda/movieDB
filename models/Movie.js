@@ -31,14 +31,3 @@ let movieSchema = mongoose.Schema({
 
 
 let Movie = module.exports = mongoose.model('Movie', movieSchema);
-
-module.exports.getMovies = function(clb, limit){
-    Movie.find(clb);
-}
-
-module.exports.addMovie = function(mov){
-    Movie.create(mov);
-}
-// module.exports.updateComment = function(mov){
-//     Movie.create(mov);
-// }

@@ -2,78 +2,52 @@ let express = require("express");
 let router = express.Router();
 let fetch =  require('node-fetch');
 let Movie = require('../models/Movie');
-
 //movies list
 
-exports.getMovies = (req, res, next) => {
-    
-    Movie.getMovies(function(err, mov){
-        if(err){
-            res.send(err);
-        }
-        //res.json(mov); sending json movies list
-        res.render("list", {mov, message: ''});    
-    });
+exports.getMovies = async (req, res, next) => {
+    const mov = await Movie.find();
+    res.render("list", {mov: mov, message: ''});
 };
-
 
 // one movie
 
-exports.getDetails = (req, res, next) => {
-    
-    let movieID = req.params.movieID;
-
-    Movie.findOne({ _id: movieID}, function (err, mov) {
-        if(err){
-            console.log(err);
-        }
-            //res.json(mov); posted movie json
-            res.render("one", {mov: mov, "action" : ""});  
-
-    });
+exports.getDetails = async (req, res, next) => {
+    const movieID = req.params.movieID;
+    const mov = await Movie.findOne({ _id: movieID});
+    res.render("one", {mov: mov, "action" : ""});
 };
 
 //add movie
 
- exports.addMovie = (req, res, next) => {
+ exports.addMovie = async (req, res, next) => {
      
-    Movie.findOne({ Title: req.body.movieTitle}, function (err, mov) {
-        if(err){
-            console.log(err);
-        }
+    const mov = await Movie.findOne({ Title: req.body.movieTitle});
         if(!mov){ ///////// if does not exist in our DB
-            fetch(`http://www.omdbapi.com/?t=${req.body.movieTitle}&apikey=df51125c`)
+            fetch(`http://www.omdbapi.com/?t=${req.body.movieTitle}&apikey=${process.env.key}`)
             .then(blob => blob.json())
             .then(mov => {
-
                 if(mov.Response === "False") { /////////  if does not exist in external DB -  Response should be falsy
-                    Movie.getMovies(function(err, mov){
+                    Movie.find((err, mov) => {
                         if(err){
                             res.send(err);
                         }
-                        res.render("list", {mov: mov, message: "movie not found"});        
-                    });  
+                        res.render("list", {mov: mov, message: "movie not found"});
+                    });
                 }    
                 
-                else{ ///////// if it exists in external DB -  add
-                    Movie.addMovie(mov);
+                else { ///////// if it exists in external DB -  add
+                    Movie.create(mov);
                     res.render("one", {mov, "action" : "-  added to Database"})
                 }
             })
             }     
 
-        else{ /////////// if it exists in our DB
-            Movie.getMovies(function(err, mov){
+        else { /////////// if it exists in our DB
+            Movie.find(function(err, mov){
                 if(err){
                     res.send(err);
                 }
                 res.render("list", {mov: mov, message: "alerady in base"});        
             });
         }
-        
-    });
-
  };
-
-
-
