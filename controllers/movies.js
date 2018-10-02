@@ -5,7 +5,7 @@ let Movie = require('../models/Movie');
 
 //movies list
 
-router.get('/movies', function(req, res, next){
+exports.getMovies = (req, res, next) => {
     
     Movie.getMovies(function(err, mov){
         if(err){
@@ -14,12 +14,12 @@ router.get('/movies', function(req, res, next){
         //res.json(mov); sending json movies list
         res.render("list", {mov, message: ''});    
     });
-});
+};
 
 
 // one movie
 
-router.get('/movies/:movieID', function(req, res, next){
+exports.getDetails = (req, res, next) => {
     
     let movieID = req.params.movieID;
 
@@ -31,11 +31,11 @@ router.get('/movies/:movieID', function(req, res, next){
             res.render("one", {mov: mov, "action" : ""});  
 
     });
-});
+};
 
 //add movie
 
- router.post('/movies', function(req, res, next){
+ exports.addMovie = (req, res, next) => {
      
     Movie.findOne({ Title: req.body.movieTitle}, function (err, mov) {
         if(err){
@@ -73,7 +73,7 @@ router.get('/movies/:movieID', function(req, res, next){
         
     });
 
- });
+ };
 
 
-module.exports = router;
+

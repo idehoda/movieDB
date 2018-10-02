@@ -1,25 +1,25 @@
-let express = require("express");
-let router = express.Router();
-let fetch =  require('node-fetch');
-let Movie = require('../models/Movie');
+const express = require("express");
+const fetch =  require('node-fetch');
+const Movie = require('../models/Movie');
 
  //// get comments
 
- router.get('/comments', function(req, res, next){
+ exports.getComments = (req, res, next) => {
 
     Movie.getMovies(function(err, movies){
         if(err){
             res.send(err);
         }
         let comments = movies.map((mov)=>mov.Comments);
-       
+
+        //res.json(comments);  all comments in database
         res.render('comments', {movies});
     });
 
- });
+ };
 
- router.get('/comments/:movieID', function(req, res, next){
-    let movieID = req.params.movieID;
+ exports.getMoviebyId = (req, res, next) => {
+    const movieID = req.params.movieID;
 
     Movie.findOne({ _id: movieID}, function (err, mov) {
         if(err){
@@ -28,17 +28,17 @@ let Movie = require('../models/Movie');
              res.render("movieComments", {mov: mov});  
     });
 
- });
+ };
 
  //// post comment
 
- router.post('/comments', function(req, res, next){
+ exports.postComment = (req, res, next) => {
      let commentObj = req.body.commentText; 
-     let title = Object.entries(commentObj)[0][0];
+     let movieID = Object.entries(commentObj)[0][0];
      let comment = Object.entries(commentObj)[0][1];
 
      Movie.findOneAndUpdate(
-        {Title: title},
+        {_id: movieID},
         { $push: { "Comments": comment } },
         { upsert: true }, 
         function(err, data) {
@@ -46,8 +46,6 @@ let Movie = require('../models/Movie');
                 console.log(err);
             } 
     });
+     //res.json(comment); posted comment body json
     res.redirect('/movies');
-
- });
-
-module.exports = router;
+ };

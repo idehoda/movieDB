@@ -14,12 +14,8 @@ mongoose.connect(process.env.db);
 
 
 const routes = require("./routes/index");
-const movies = require("./routes/movies");
-const comments = require("./routes/comments");
-
-
+// const movies = require("./routes/movies");
+// const comments = require("./routes/comments");
  app.use('/', routes);
- app.use('/', movies);
- app.use('/', comments);
 
 app.listen(PORT, () => console.log("running on port 5000..."));
